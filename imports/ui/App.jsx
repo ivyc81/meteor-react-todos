@@ -1,13 +1,12 @@
 import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 import Task from './Task';
 
-function App() {
+import {Tasks} from '../api/tasks';
+
+function App(props) {
   function getTasks() {
-    return [
-      { _id: 1, text: 'This is task 1' },
-      { _id: 2, text: 'This is task 2' },
-      { _id: 3, text: 'This is task 3' },
-    ];
+    return props.tasks;
   }
 
   function renderTasks() {
@@ -29,4 +28,8 @@ function App() {
   );
 }
 
-export default App;
+export default withTracker(() => {
+  return {
+    tasks: Tasks.find({}).fetch(),
+  };
+})(App);
